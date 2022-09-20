@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/screens/home/car_view.dart';
 import 'package:todo_app/utilis/colors.dart';
 import 'package:todo_app/widgets/big_text.dart';
 import 'package:todo_app/widgets/small_text.dart';
@@ -46,13 +47,15 @@ class _MainFoodPageState extends State<MainFoodPage> {
                           borderRadius: BorderRadius.circular(14),
                           color: AppColors.mainColor,
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.search,
                           color: Colors.white,
                         ),
-                      )
+                      ),
+                      
                     ])),
           ),
+          const CardView()
         ],
       ),
     );
