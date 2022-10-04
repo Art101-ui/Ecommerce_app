@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
+import 'package:todo_app/utilis/dimensions.dart';
 
 class BigText extends StatelessWidget {
   final Color color;
@@ -9,8 +10,8 @@ class BigText extends StatelessWidget {
   BigText({
     Key? key,
     this.color = const Color(0xFF000000),
-    this.size = 20,
-    this.overflow = TextOverflow.fade,
+    this.size = 0,
+    this.overflow = TextOverflow.ellipsis,
     required this.text,
   }) : super(key: key);
 
@@ -22,7 +23,7 @@ class BigText extends StatelessWidget {
       overflow: overflow,
       style: TextStyle(
         color: color,
-        fontSize: size,
+        fontSize: size == 0 ? Dimensions.font20 : size,
         fontFamily: 'Lato',
       ),
     );

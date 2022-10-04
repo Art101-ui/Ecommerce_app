@@ -2,6 +2,7 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
+import 'package:todo_app/utilis/dimensions.dart';
 import 'package:todo_app/widgets/small_text.dart';
 
 class IconTextWidget extends StatelessWidget {
@@ -23,7 +24,7 @@ class IconTextWidget extends StatelessWidget {
         Icon(
           icon,
           color: iconColor,
-          size: 15,
+          size: Dimensions.icon24,
         ),
         SizedBox(
           width: 4,

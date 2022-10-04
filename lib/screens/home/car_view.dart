@@ -2,6 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/utilis/colors.dart';
+import 'package:todo_app/utilis/dimensions.dart';
 import 'package:todo_app/widgets/big_text.dart';
 import 'package:todo_app/widgets/icon-text.dart';
 import 'package:todo_app/widgets/small_text.dart';
@@ -17,7 +18,7 @@ class _CardViewState extends State<CardView> {
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currentPage = 0.0;
   double _scaleFactor = 0.8;
-  double _height = 220;
+  double _height = Dimensions.carView;
 
   @override
   void initState() {
@@ -39,35 +40,142 @@ class _CardViewState extends State<CardView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // slider container
         Container(
-            height: 320,
+            height: Dimensions.carViewContainer,
             child: PageView.builder(
                 controller: pageController,
                 itemCount: 5,
                 itemBuilder: (context, position) {
                   return _buildCarItem(position);
                 })),
+        // Dots Indicator
         DotsIndicator(
           dotsCount: 5,
           position: _currentPage,
           decorator: DotsDecorator(
             activeColor: AppColors.mainColor,
             shape: const Border(),
-            activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
+            activeShape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           ),
-        )
+        ),
+        SizedBox(
+          height: Dimensions.height30,
+        ),
+        Container(
+          margin: EdgeInsets.only(left: Dimensions.width20),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            BigText(text: 'Popular'),
+            SizedBox(
+              width: Dimensions.width10,
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 2),
+              child: BigText(
+                text: '.',
+                color: Colors.black26,
+              ),
+            ),
+            SizedBox(
+              width: Dimensions.width10,
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 1),
+              child: SmallText(
+                text: 'Food Pairing',
+              ),
+            ),
+          ]),
+        ),
+
+        SizedBox(
+          height: Dimensions.height20,
+        ),
+
+        ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: 5,
+            itemBuilder: ((context, index) {
+              return Container(
+                margin: EdgeInsets.only(
+                    left: Dimensions.width20,
+                    right: Dimensions.width20,
+                    bottom: Dimensions.height10),
+                child: Row(
+                  children: [
+                    Container(
+                      height: Dimensions.listViewImg,
+                      width: Dimensions.listViewImg,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.radius20),
+                          image: const DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage('assets/images/hyundai.jpg'))),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: Dimensions.listViewText,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(Dimensions.radius20),
+                                bottomRight:
+                                    Radius.circular(Dimensions.radius20)),
+                            color: Colors.white),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: Dimensions.width10,
+                              right: Dimensions.width10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              BigText(text: "2023 Lamborghini RX Review"),
+                              SizedBox(height: Dimensions.height10),
+                              SmallText(text: 'Epitome of speed '),
+                              SizedBox(height: Dimensions.height10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconTextWidget(
+                                      icon: Icons
+                                          .airline_seat_recline_normal_rounded,
+                                      iconColor: AppColors.iconColor1,
+                                      text: '5'),
+                                  IconTextWidget(
+                                      icon: Icons.bolt,
+                                      iconColor: AppColors.mainColor,
+                                      text: '52 hp'),
+                                  IconTextWidget(
+                                      icon: Icons.speed,
+                                      iconColor: AppColors.iconColor2,
+                                      text: '72km/h'),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }))
       ],
     );
   }
 
+//  car slides
   Widget _buildCarItem(int position) {
     Matrix4 matrix4 = Matrix4.identity();
     if (position == _currentPage.floor()) {
       var currScale = 1 - (_currentPage - position) * (1 - _scaleFactor);
       var currTrans = _height * (1 - currScale) / 2;
       matrix4 = Matrix4.diagonal3Values(1, currScale, 1)
-        ..setTranslationRaw(0, currTrans, 0);
+      ..setTranslationRaw(0, currTrans, 0);
     } else if (position == _currentPage.floor() + 1) {
       var currScale =
           _scaleFactor + (_currentPage - position + 1) * (1 - _scaleFactor);
@@ -92,10 +200,11 @@ class _CardViewState extends State<CardView> {
       transform: matrix4,
       child: Stack(children: [
         Container(
-          height: 200,
-          margin: const EdgeInsets.only(left: 10, right: 10),
+          height: Dimensions.carView,
+          margin: EdgeInsets.only(
+              left: Dimensions.width10, right: Dimensions.width10),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(Dimensions.radius20),
               color: position.isEven ? Color(0xFF16235A) : Color(0xFF16235A),
               image: const DecorationImage(
                   image: AssetImage('assets/images/hyundai.jpg'),
@@ -104,10 +213,13 @@ class _CardViewState extends State<CardView> {
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            height: 125,
-            margin: EdgeInsets.only(left: 20, right: 20, bottom: 30),
+            height: Dimensions.carViewText,
+            margin: EdgeInsets.only(
+                left: Dimensions.width20,
+                right: Dimensions.width20,
+                bottom: Dimensions.height30),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(Dimensions.radius20),
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
@@ -120,13 +232,16 @@ class _CardViewState extends State<CardView> {
                   BoxShadow(color: Colors.white, offset: Offset(5, 0)),
                 ]),
             child: Padding(
-              padding: EdgeInsets.only(left: 15, right: 15, top: 20),
+              padding: EdgeInsets.only(
+                  left: Dimensions.width15,
+                  right: Dimensions.width15,
+                  top: Dimensions.height20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BigText(text: 'Lamborghini'),
                   SizedBox(
-                    height: 10,
+                    height: Dimensions.height10,
                   ),
                   Row(
                     children: [
@@ -136,21 +251,21 @@ class _CardViewState extends State<CardView> {
                             (index) => Icon(
                                   Icons.star,
                                   color: AppColors.mainColor,
-                                  size: 15,
+                                  size: Dimensions.font15,
                                 )),
                       ),
                       SizedBox(
-                        width: 10,
+                        width: Dimensions.height10,
                       ),
                       SmallText(text: '4.5'),
                       SizedBox(
-                        width: 10,
+                        width: Dimensions.height15,
                       ),
                       SmallText(text: '500 comments')
                     ],
                   ),
                   SizedBox(
-                    height: 15,
+                    height: Dimensions.height15,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

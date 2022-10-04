@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/screens/home/car_view.dart';
 import 'package:todo_app/utilis/colors.dart';
+import 'package:todo_app/utilis/dimensions.dart';
 import 'package:todo_app/widgets/big_text.dart';
 import 'package:todo_app/widgets/small_text.dart';
 
@@ -15,12 +16,15 @@ class _MainFoodPageState extends State<MainFoodPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white60,
       body: Column(
         children: [
           Container(
             child: Container(
-                margin: const EdgeInsets.only(top: 25, bottom: 15),
-                padding: const EdgeInsets.only(left: 15, right: 15),
+                margin: EdgeInsets.only(
+                    top: Dimensions.height45, bottom: Dimensions.height15),
+                padding: EdgeInsets.only(
+                    left: Dimensions.width20, right: Dimensions.width20),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -31,6 +35,7 @@ class _MainFoodPageState extends State<MainFoodPage> {
                             color: AppColors.mainColor,
                           ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SmallText(
                                   text: 'Ibadan',
@@ -41,21 +46,25 @@ class _MainFoodPageState extends State<MainFoodPage> {
                         ],
                       ),
                       Container(
-                        width: 45,
-                        height: 45,
+                        width: Dimensions.width45,
+                        height: Dimensions.height45,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.radius15),
                           color: AppColors.mainColor,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.search,
                           color: Colors.white,
+                          size: Dimensions.icon24,
                         ),
                       ),
-                      
                     ])),
           ),
-          const CardView()
+          const Expanded(
+              child: SingleChildScrollView(
+            child: CardView(),
+          ))
         ],
       ),
     );
