@@ -46,7 +46,7 @@ class RecommendedFoodDetail extends StatelessWidget {
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
               background: Image.asset(
-                'assets/images/main_car.jpg',
+                'assets/images/hyundai.jpg',
                 fit: BoxFit.cover,
                 width: double.maxFinite,
               ),
@@ -81,10 +81,14 @@ The electric-specific platform liberates more interior space but reviewers also 
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
+            decoration: BoxDecoration(
+                border: Border(
+                    top: BorderSide(
+                        color: AppColors.buttonBackgroundColor, width: 1))),
             padding: EdgeInsets.only(
               left: Dimensions.width20 * 2.5,
               right: Dimensions.width20 * 2.5,
-              top: Dimensions.height15,
+              top: Dimensions.height10,
             ),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,6 +142,7 @@ The electric-specific platform liberates more interior space but reviewers also 
                     color: AppColors.mainColor,
                   ),
                 ),
+                
                 Container(
                   padding: EdgeInsets.only(
                       top: Dimensions.height20,
