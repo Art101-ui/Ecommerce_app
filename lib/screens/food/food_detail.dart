@@ -41,9 +41,14 @@ class _FoodDetailState extends State<FoodDetail> {
               right: Dimensions.width20,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  AppIcon(icon: Icons.arrow_back_ios_new_sharp),
-                  AppIcon(icon: Icons.shopping_cart_outlined),
+                children: [
+                  AppIcon(
+                    icon: Icons.arrow_back_ios_new_sharp,
+                    iconcolor: AppColors.mainBlackColor,
+                  ),
+                  AppIcon(
+                      icon: Icons.shopping_cart_outlined,
+                      iconcolor: AppColors.mainBlackColor),
                 ],
               )),
           Positioned(

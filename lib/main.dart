@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/screens/food/food_detail.dart';
+import 'package:todo_app/screens/food/recommended_food_detail.dart';
 import 'package:todo_app/screens/home/main_car_page.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainFoodPage(),
+      home: RecommendedFoodDetail(),
       // MainFoodPage(),
     );
   }
