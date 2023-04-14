@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/screens/food/food_detail.dart';
-import 'package:todo_app/screens/food/recommended_food_detail.dart';
+import 'package:todo_app/helpers/dependencies.dart' as dep;
 import 'package:todo_app/screens/home/main_car_page.dart';
 
-void main() {
+void main() async {
+  // To make sure dependencies are loaded first
+  WidgetsFlutterBinding.ensureInitialized();
+  await dep.init();
   runApp(const MyApp());
 }
 
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: RecommendedFoodDetail(),
+      home: MainFoodPage(),
       // MainFoodPage(),
     );
   }
