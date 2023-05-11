@@ -7,6 +7,8 @@ import 'package:todo_app/widgets/expanded_text_widget.dart';
 
 class RecommendedFoodDetail extends StatelessWidget {
   const RecommendedFoodDetail({Key? key}) : super(key: key);
+  
+  
 
   @override
   Widget build(BuildContext context) {

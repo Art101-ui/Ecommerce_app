@@ -1,7 +1,10 @@
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:todo_app/data/controllers/productControllers.dart';
+import 'package:todo_app/models/product_models.dart';
 import 'package:todo_app/utilis/colors.dart';
+import 'package:todo_app/utilis/constants.dart';
 import 'package:todo_app/utilis/dimensions.dart';
 import 'package:todo_app/widgets/big_text.dart';
 import 'package:todo_app/widgets/icon-text.dart';
@@ -17,8 +20,8 @@ class CardView extends StatefulWidget {
 class _CardViewState extends State<CardView> {
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currentPage = 0.0;
-  double _scaleFactor = 0.8;
-  double _height = Dimensions.carView;
+  final double _scaleFactor = 0.8;
+  final double _height = Dimensions.carView;
 
   @override
   void initState() {
@@ -41,37 +44,46 @@ class _CardViewState extends State<CardView> {
     return Column(
       children: [
         // slider container
-        Container(
-            height: Dimensions.carViewContainer,
-            child: PageView.builder(
-                controller: pageController,
-                itemCount: 5,
-                itemBuilder: (context, position) {
-                  return _buildCarItem(position);
-                })),
-        // Dots Indicator
-        DotsIndicator(
-          dotsCount: 5,
-          position: _currentPage,
-          decorator: DotsDecorator(
-            activeColor: AppColors.mainColor,
-            shape: const Border(),
-            activeShape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          ),
+        GetBuilder<ProductControllers>(
+          builder: (popularProducts) {
+            return SizedBox(
+                height: Dimensions.carViewContainer,
+                child: PageView.builder(
+                    controller: pageController,
+                    itemCount: popularProducts.repoList.length,
+                    itemBuilder: (context, position) {
+                      return _buildCarItem(
+                          position, popularProducts.repoList[position]);
+                    }));
+          },
         ),
+        // Dots Indicator
+        GetBuilder<ProductControllers>(builder: (popularProducts) {
+          return DotsIndicator(
+            dotsCount: popularProducts.repoList.isEmpty
+                ? 1
+                : popularProducts.repoList.length,
+            position: _currentPage,
+            decorator: DotsDecorator(
+              activeColor: AppColors.mainColor,
+              shape: const Border(),
+              activeShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
+            ),
+          );
+        }),
         SizedBox(
           height: Dimensions.height30,
         ),
         Container(
           margin: EdgeInsets.only(left: Dimensions.width20),
           child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            BigText(text: 'Popular'),
+            BigText(text: 'Recommended'),
             SizedBox(
               width: Dimensions.width10,
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 2),
+              margin: const EdgeInsets.only(bottom: 2),
               child: BigText(
                 text: '.',
                 color: Colors.black26,
@@ -81,7 +93,7 @@ class _CardViewState extends State<CardView> {
               width: Dimensions.width10,
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 1),
+              margin: const EdgeInsets.only(bottom: 1),
               child: SmallText(
                 text: 'Food Pairing',
               ),
@@ -169,13 +181,13 @@ class _CardViewState extends State<CardView> {
   }
 
 //  car slides
-  Widget _buildCarItem(int position) {
+  Widget _buildCarItem(int position, ProductsModel item) {
     Matrix4 matrix4 = Matrix4.identity();
     if (position == _currentPage.floor()) {
       var currScale = 1 - (_currentPage - position) * (1 - _scaleFactor);
       var currTrans = _height * (1 - currScale) / 2;
       matrix4 = Matrix4.diagonal3Values(1, currScale, 1)
-      ..setTranslationRaw(0, currTrans, 0);
+        ..setTranslationRaw(0, currTrans, 0);
     } else if (position == _currentPage.floor() + 1) {
       var currScale =
           _scaleFactor + (_currentPage - position + 1) * (1 - _scaleFactor);
@@ -205,9 +217,12 @@ class _CardViewState extends State<CardView> {
               left: Dimensions.width10, right: Dimensions.width10),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Dimensions.radius20),
-              color: position.isEven ? Color(0xFF16235A) : Color(0xFF16235A),
-              image: const DecorationImage(
-                  image: AssetImage('assets/images/hyundai.jpg'),
+              color: position.isEven
+                  ? const Color(0xFF16235A)
+                  : const Color(0xFF16235A),
+              image: DecorationImage(
+                  image: NetworkImage(
+                      "${APPCONSTANTS.baseUrl}${APPCONSTANTS.uploads}${item.img!}"),
                   fit: BoxFit.cover)),
         ),
         Align(
@@ -226,10 +241,10 @@ class _CardViewState extends State<CardView> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 5,
                     blurRadius: 5,
-                    offset: Offset(0, 5), // changes position of shadow
+                    offset: const Offset(0, 5), // changes position of shadow
                   ),
-                  BoxShadow(color: Colors.white, offset: Offset(-5, 0)),
-                  BoxShadow(color: Colors.white, offset: Offset(5, 0)),
+                  const BoxShadow(color: Colors.white, offset: Offset(-5, 0)),
+                  const BoxShadow(color: Colors.white, offset: Offset(5, 0)),
                 ]),
             child: Padding(
               padding: EdgeInsets.only(
@@ -239,7 +254,7 @@ class _CardViewState extends State<CardView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BigText(text: 'Lamborghini'),
+                  BigText(text: item.name!),
                   SizedBox(
                     height: Dimensions.height10,
                   ),
@@ -257,7 +272,7 @@ class _CardViewState extends State<CardView> {
                       SizedBox(
                         width: Dimensions.height10,
                       ),
-                      SmallText(text: '4.5'),
+                      SmallText(text: item.stars.toString()),
                       SizedBox(
                         width: Dimensions.height15,
                       ),
