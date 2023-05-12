@@ -1,8 +1,6 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
+import 'package:todo_app/screens/home/main_car_page.dart';
 import 'package:todo_app/utilis/colors.dart';
 import 'package:todo_app/utilis/dimensions.dart';
 import 'package:todo_app/widgets/app_column.dart';
@@ -30,7 +28,7 @@ class _FoodDetailState extends State<FoodDetail> {
               child: Container(
                 width: double.maxFinite,
                 height: Dimensions.popularFoodImage,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
                         image: AssetImage('assets/images/hyundai.jpg'))),
@@ -42,9 +40,14 @@ class _FoodDetailState extends State<FoodDetail> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppIcon(
-                    icon: Icons.arrow_back_ios_new_sharp,
-                    iconcolor: AppColors.mainBlackColor,
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => MainFoodPage());
+                    },
+                    child: AppIcon(
+                      icon: Icons.arrow_back_ios_new_sharp,
+                      iconcolor: AppColors.mainBlackColor,
+                    ),
                   ),
                   AppIcon(
                       icon: Icons.shopping_cart_outlined,
@@ -71,7 +74,7 @@ class _FoodDetailState extends State<FoodDetail> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppColumn(
+                    const AppColumn(
                       text: 'Rolls Royce',
                     ),
                     SizedBox(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/data/controllers/productControllers.dart';
+import 'package:todo_app/data/controllers/recommendedControllers.dart';
 import 'package:todo_app/helpers/dependencies.dart' as dep;
 import 'package:todo_app/screens/home/main_car_page.dart';
 
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.find<ProductControllers>().getRepoList();
+    Get.find<RecommendedControllers>().getRepoList();
     return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,

@@ -2,7 +2,9 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/data/controllers/productControllers.dart';
+import 'package:todo_app/data/controllers/recommendedControllers.dart';
 import 'package:todo_app/models/product_models.dart';
+import 'package:todo_app/screens/food/food_detail.dart';
 import 'package:todo_app/utilis/colors.dart';
 import 'package:todo_app/utilis/constants.dart';
 import 'package:todo_app/utilis/dimensions.dart';
@@ -46,15 +48,24 @@ class _CardViewState extends State<CardView> {
         // slider container
         GetBuilder<ProductControllers>(
           builder: (popularProducts) {
-            return SizedBox(
-                height: Dimensions.carViewContainer,
-                child: PageView.builder(
-                    controller: pageController,
-                    itemCount: popularProducts.repoList.length,
-                    itemBuilder: (context, position) {
-                      return _buildCarItem(
-                          position, popularProducts.repoList[position]);
-                    }));
+            return popularProducts.isLoaded
+                ? GestureDetector(
+                    onTap: () {
+                      Get.to(() => const FoodDetail());
+                    },
+                    child: SizedBox(
+                        height: Dimensions.carViewContainer,
+                        child: PageView.builder(
+                            controller: pageController,
+                            itemCount: popularProducts.repoList.length,
+                            itemBuilder: (context, position) {
+                              return _buildCarItem(
+                                  position, popularProducts.repoList[position]);
+                            })),
+                  )
+                : CircularProgressIndicator(
+                    color: AppColors.mainColor,
+                  );
           },
         ),
         // Dots Indicator
@@ -105,77 +116,88 @@ class _CardViewState extends State<CardView> {
           height: Dimensions.height20,
         ),
 
-        ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 5,
-            itemBuilder: ((context, index) {
-              return Container(
-                margin: EdgeInsets.only(
-                    left: Dimensions.width20,
-                    right: Dimensions.width20,
-                    bottom: Dimensions.height10),
-                child: Row(
-                  children: [
-                    Container(
-                      height: Dimensions.listViewImg,
-                      width: Dimensions.listViewImg,
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.radius20),
-                          image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/images/hyundai.jpg'))),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: Dimensions.listViewText,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(Dimensions.radius20),
-                                bottomRight:
-                                    Radius.circular(Dimensions.radius20)),
-                            color: Colors.white),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: Dimensions.width10,
-                              right: Dimensions.width10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              BigText(text: "2023 Lamborghini RX Review"),
-                              SizedBox(height: Dimensions.height10),
-                              SmallText(text: 'Epitome of speed '),
-                              SizedBox(height: Dimensions.height10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconTextWidget(
-                                      icon: Icons
-                                          .airline_seat_recline_normal_rounded,
-                                      iconColor: AppColors.iconColor1,
-                                      text: '5'),
-                                  IconTextWidget(
-                                      icon: Icons.bolt,
-                                      iconColor: AppColors.mainColor,
-                                      text: '52 hp'),
-                                  IconTextWidget(
-                                      icon: Icons.speed,
-                                      iconColor: AppColors.iconColor2,
-                                      text: '72km/h'),
-                                ],
-                              )
-                            ],
+        GetBuilder<RecommendedControllers>(builder: (recommendedProducts) {
+          return recommendedProducts.isLoaded
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: recommendedProducts.recommendedList.length,
+                  itemBuilder: ((context, index) {
+                    return Container(
+                      margin: EdgeInsets.only(
+                          left: Dimensions.width20,
+                          right: Dimensions.width20,
+                          bottom: Dimensions.height10),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: Dimensions.listViewImg,
+                            width: Dimensions.listViewImg,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(Dimensions.radius20),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                        "${APPCONSTANTS.baseUrl}${APPCONSTANTS.uploads}${recommendedProducts.recommendedList[index].img!}"))),
                           ),
-                        ),
+                          Expanded(
+                            child: Container(
+                              height: Dimensions.listViewText,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight:
+                                          Radius.circular(Dimensions.radius20),
+                                      bottomRight:
+                                          Radius.circular(Dimensions.radius20)),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: Dimensions.width10,
+                                    right: Dimensions.width10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    BigText(
+                                        text: recommendedProducts
+                                            .recommendedList[index].name),
+                                    SizedBox(height: Dimensions.height10),
+                                    SmallText(
+                                        text: 'With the best characteristics'),
+                                    SizedBox(height: Dimensions.height10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        IconTextWidget(
+                                            icon: Icons
+                                                .airline_seat_recline_normal_rounded,
+                                            iconColor: AppColors.iconColor1,
+                                            text: '5'),
+                                        IconTextWidget(
+                                            icon: Icons.bolt,
+                                            iconColor: AppColors.mainColor,
+                                            text: '52 hp'),
+                                        IconTextWidget(
+                                            icon: Icons.speed,
+                                            iconColor: AppColors.iconColor2,
+                                            text: '72km/h'),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              );
-            }))
+                    );
+                  }))
+              : CircularProgressIndicator(
+                  color: AppColors.mainColor,
+                );
+        })
       ],
     );
   }

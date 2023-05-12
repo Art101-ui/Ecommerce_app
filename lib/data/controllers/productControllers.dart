@@ -9,14 +9,19 @@ class ProductControllers extends GetxController {
   List<dynamic> _repoList = [];
   List<dynamic> get repoList => _repoList;
 
+  bool _isLoaded = false;
+  bool get isLoaded => _isLoaded;
+
   Future<void> getRepoList() async {
     Response response = await repo.getRepoList();
     if (response.statusCode == 200) {
       // To initialize it again so it won't give repeated data
       _repoList = [];
       _repoList.addAll(Product.fromJson(response.body).products);
-
+      _isLoaded = true;
       update();
-    } else {}
+    } else {
+      
+    }
   }
 }
