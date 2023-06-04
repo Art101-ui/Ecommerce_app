@@ -17,9 +17,9 @@ class Product {
   }
 
   Product.fromJson(Map<String, dynamic> json) {
-    _totalSize = json['total_size'];
-    _typeId = json['type_id'];
-    _offset = json['offset'];
+    _totalSize = (json['total_size'] ?? 0) as int;
+    _typeId = (json['type_id'] ?? 0) as int;
+    _offset = (json['offset'] ?? 0) as int;
     if (json['products'] != null) {
       _products = <ProductsModel>[];
       json['products'].forEach((v) {
@@ -65,16 +65,16 @@ class ProductsModel {
       this.typeId});
 
   ProductsModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ;
-    name = json['name'];
-    description = json['description'];
-    price = json['price'];
-    stars = json['stars'];
-    img = json['img'];
-    location = json['location'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    typeId = json['type_id'];
+    id = (json['id'] ?? 0) as int;
+    name = (json['name'] ?? '').toString();
+    description = (json['description'] ?? '').toString();
+    price = (json['price'] ?? 0) as int;
+    stars = (json['stars'] ?? 0) as int;
+    img = (json['img'] ?? '').toString();
+    location = (json['location'] ?? '').toString();
+    createdAt = (json['created_at'] ?? '').toString();
+    updatedAt = (json['updated_at'] ?? '').toString();
+    typeId = (json['type_id'] ?? 0) as int;
   }
 
   Map<String, dynamic> toJson() {

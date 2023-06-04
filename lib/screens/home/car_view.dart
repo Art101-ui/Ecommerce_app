@@ -5,6 +5,7 @@ import 'package:todo_app/data/controllers/productControllers.dart';
 import 'package:todo_app/data/controllers/recommendedControllers.dart';
 import 'package:todo_app/models/product_models.dart';
 import 'package:todo_app/screens/food/food_detail.dart';
+import 'package:todo_app/screens/routes/routes_help.dart';
 import 'package:todo_app/utilis/colors.dart';
 import 'package:todo_app/utilis/constants.dart';
 import 'package:todo_app/utilis/dimensions.dart';
@@ -49,20 +50,15 @@ class _CardViewState extends State<CardView> {
         GetBuilder<ProductControllers>(
           builder: (popularProducts) {
             return popularProducts.isLoaded
-                ? GestureDetector(
-                    onTap: () {
-                      Get.to(() => const FoodDetail());
-                    },
-                    child: SizedBox(
-                        height: Dimensions.carViewContainer,
-                        child: PageView.builder(
-                            controller: pageController,
-                            itemCount: popularProducts.repoList.length,
-                            itemBuilder: (context, position) {
-                              return _buildCarItem(
-                                  position, popularProducts.repoList[position]);
-                            })),
-                  )
+                ? SizedBox(
+                    height: Dimensions.carViewContainer,
+                    child: PageView.builder(
+                        controller: pageController,
+                        itemCount: popularProducts.repoList.length,
+                        itemBuilder: (context, position) {
+                          return _buildCarItem(
+                              position, popularProducts.repoList[position]);
+                        }))
                 : CircularProgressIndicator(
                     color: AppColors.mainColor,
                   );
@@ -123,74 +119,82 @@ class _CardViewState extends State<CardView> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: recommendedProducts.recommendedList.length,
                   itemBuilder: ((context, index) {
-                    return Container(
-                      margin: EdgeInsets.only(
-                          left: Dimensions.width20,
-                          right: Dimensions.width20,
-                          bottom: Dimensions.height10),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: Dimensions.listViewImg,
-                            width: Dimensions.listViewImg,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(Dimensions.radius20),
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                        "${APPCONSTANTS.baseUrl}${APPCONSTANTS.uploads}${recommendedProducts.recommendedList[index].img!}"))),
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: Dimensions.listViewText,
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed(
+                            RoutesHelper.getRecommendedFood(index, "homePage"));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            left: Dimensions.width20,
+                            right: Dimensions.width20,
+                            bottom: Dimensions.height10),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: Dimensions.listViewImg,
+                              width: Dimensions.listViewImg,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      topRight:
-                                          Radius.circular(Dimensions.radius20),
-                                      bottomRight:
-                                          Radius.circular(Dimensions.radius20)),
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: Dimensions.width10,
-                                    right: Dimensions.width10),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    BigText(
-                                        text: recommendedProducts
-                                            .recommendedList[index].name),
-                                    SizedBox(height: Dimensions.height10),
-                                    SmallText(
-                                        text: 'With the best characteristics'),
-                                    SizedBox(height: Dimensions.height10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        IconTextWidget(
-                                            icon: Icons
-                                                .airline_seat_recline_normal_rounded,
-                                            iconColor: AppColors.iconColor1,
-                                            text: '5'),
-                                        IconTextWidget(
-                                            icon: Icons.bolt,
-                                            iconColor: AppColors.mainColor,
-                                            text: '52 hp'),
-                                        IconTextWidget(
-                                            icon: Icons.speed,
-                                            iconColor: AppColors.iconColor2,
-                                            text: '72km/h'),
-                                      ],
-                                    )
-                                  ],
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radius20),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                          "${APPCONSTANTS.baseUrl}${APPCONSTANTS.uploads}${recommendedProducts.recommendedList[index].img!}"))),
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: Dimensions.listViewText,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(
+                                            Dimensions.radius20),
+                                        bottomRight: Radius.circular(
+                                            Dimensions.radius20)),
+                                    color: Colors.white),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: Dimensions.width10,
+                                      right: Dimensions.width10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      BigText(
+                                          text: recommendedProducts
+                                              .recommendedList[index].name),
+                                      SizedBox(height: Dimensions.height10),
+                                      SmallText(
+                                          text:
+                                              'With the best characteristics'),
+                                      SizedBox(height: Dimensions.height10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          IconTextWidget(
+                                              icon: Icons
+                                                  .airline_seat_recline_normal_rounded,
+                                              iconColor: AppColors.iconColor1,
+                                              text: '5'),
+                                          IconTextWidget(
+                                              icon: Icons.bolt,
+                                              iconColor: AppColors.mainColor,
+                                              text: '52 hp'),
+                                          IconTextWidget(
+                                              icon: Icons.speed,
+                                              iconColor: AppColors.iconColor2,
+                                              text: '72km/h'),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     );
                   }))
@@ -233,19 +237,24 @@ class _CardViewState extends State<CardView> {
     return Transform(
       transform: matrix4,
       child: Stack(children: [
-        Container(
-          height: Dimensions.carView,
-          margin: EdgeInsets.only(
-              left: Dimensions.width10, right: Dimensions.width10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Dimensions.radius20),
-              color: position.isEven
-                  ? const Color(0xFF16235A)
-                  : const Color(0xFF16235A),
-              image: DecorationImage(
-                  image: NetworkImage(
-                      "${APPCONSTANTS.baseUrl}${APPCONSTANTS.uploads}${item.img!}"),
-                  fit: BoxFit.cover)),
+        GestureDetector(
+          onTap: () {
+            Get.toNamed(RoutesHelper.getfoodDetail(position, "homePage"));
+          },
+          child: Container(
+            height: Dimensions.carView,
+            margin: EdgeInsets.only(
+                left: Dimensions.width10, right: Dimensions.width10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(Dimensions.radius20),
+                color: position.isEven
+                    ? const Color(0xFF16235A)
+                    : const Color(0xFF16235A),
+                image: DecorationImage(
+                    image: NetworkImage(
+                        "${APPCONSTANTS.baseUrl}${APPCONSTANTS.uploads}${item.img!}"),
+                    fit: BoxFit.cover)),
+          ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
