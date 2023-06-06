@@ -24,6 +24,9 @@ class Dimensions {
   static double width30 = screenHeight / 28.13;
   static double width45 = screenHeight / 18.76;
 
+// onboarding
+  static double onboard = screenHeight / 3.38;
+
 // font size
   static double font12 = screenHeight / 70.3;
   static double font15 = screenHeight / 56.27;
