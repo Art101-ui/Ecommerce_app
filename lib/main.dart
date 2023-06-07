@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/data/controllers/cartControllers.dart';
 import 'package:todo_app/data/controllers/productControllers.dart';
 import 'package:todo_app/data/controllers/recommendedControllers.dart';
 import 'package:todo_app/helpers/dependencies.dart' as dep;
@@ -22,6 +23,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<CartControllers>().getCartTotal();
+
     return GetBuilder<ProductControllers>(
       builder: (controller) {
         return GetBuilder<RecommendedControllers>(builder: ((controller) {

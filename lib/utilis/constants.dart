@@ -4,4 +4,5 @@ class APPCONSTANTS {
   static const String recommendedUri= "/api/v1/products/recommended";
   static const String uploads= "/uploads/";
   static const String token= "token";
+  static const String CartList= "Cart_list";
 }
