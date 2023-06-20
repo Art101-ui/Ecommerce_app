@@ -61,6 +61,11 @@ class CartControllers extends GetxController {
     update();
   }
 
+  void addCartToList() {
+    cartRepo.addCartToList(getItems);
+    update();
+  }
+
   bool existInCart(ProductsModel productModel) {
     if (_items.containsKey(productModel.id)) {
       return true;
@@ -109,14 +114,34 @@ class CartControllers extends GetxController {
 
   List<CartModel> getCartTotal() {
     setCart = cartRepo.getCartList();
+    print('Length of item in storage' + storageItems.length.toString());
     return storageItems;
   }
 
   set setCart(List<CartModel> items) {
     storageItems = items;
-
+    print('Length of item in storage' + storageItems.length.toString());
     for (var i = 0; i < storageItems.length; i++) {
       _items.putIfAbsent(storageItems[i].product!.id!, () => storageItems[i]);
     }
+  }
+
+  set orderTime(Map<int, CartModel> items) {
+    _items = {};
+    _items = items;
+  }
+
+  void addToCartHistoryList() {
+    cartRepo.addToCartHistory();
+    clear();
+  }
+
+  List<CartModel> getToCartHistory() {
+    return cartRepo.getCartHistoryList();
+  }
+
+  void clear() {
+    _items = {};
+    update();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:todo_app/screens/cart/cart_history.dart';
 import 'package:todo_app/screens/home/main_car_page.dart';
 import 'package:todo_app/utilis/colors.dart';
 
@@ -16,8 +17,6 @@ class _HomePageState extends State<HomePage> {
 
   late PersistentTabController _controller;
   late bool _hideNavBar;
-
-  
 
   void onTapNav(int index) {
     setState(() {
@@ -39,10 +38,7 @@ class _HomePageState extends State<HomePage> {
         alignment: Alignment.center,
         child: Text('Next Page'),
       ),
-      Container(
-        alignment: Alignment.center,
-        child: Text('Next Next Page'),
-      ),
+      CartHistory(),
       Container(
         alignment: Alignment.center,
         child: Text('Next Next Next Page'),
