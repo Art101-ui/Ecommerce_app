@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:todo_app/screens/auth/sign_up_page.dart';
 import 'package:todo_app/screens/cart/cart_history.dart';
 import 'package:todo_app/screens/home/main_car_page.dart';
+import 'package:todo_app/screens/profile/account_page.dart';
 import 'package:todo_app/utilis/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,15 +36,9 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _buildScreens() {
     return [
       MainFoodPage(),
-      Container(
-        alignment: Alignment.center,
-        child: Text('Next Page'),
-      ),
+      SignUpPage(),
       CartHistory(),
-      Container(
-        alignment: Alignment.center,
-        child: Text('Next Next Next Page'),
-      ),
+      AccountPage(),
     ];
   }
 
