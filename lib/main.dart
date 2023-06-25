@@ -5,6 +5,7 @@ import 'package:todo_app/data/controllers/productControllers.dart';
 import 'package:todo_app/data/controllers/recommendedControllers.dart';
 import 'package:todo_app/helpers/dependencies.dart' as dep;
 import 'package:todo_app/models/product_models.dart';
+import 'package:todo_app/screens/auth/sign_in_page.dart';
 import 'package:todo_app/screens/auth/sign_up_page.dart';
 import 'package:todo_app/screens/home/home_page.dart';
 import 'package:todo_app/screens/cart/cart_page.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: SignUpPage(),
+            home: SignInPage(),
             // initialRoute: RoutesHelper.getOnBoarding(),
             // getPages: RoutesHelper.getPage,
             // MainFoodPage(),

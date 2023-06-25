@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/base/show_custom_message.dart';
+import 'package:todo_app/data/controllers/authControllers.dart';
+import 'package:todo_app/data/repository/authRepo.dart';
+import 'package:todo_app/models/signup_model.dart';
 import 'package:todo_app/utilis/colors.dart';
 import 'package:todo_app/utilis/dimensions.dart';
 import 'package:todo_app/widgets/app_text.dart';
@@ -13,6 +17,8 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var authController = Get.find<AuthController>();
+
     var usernameController = TextEditingController();
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
@@ -24,9 +30,45 @@ class SignUpPage extends StatelessWidget {
       't.png',
     ];
 
+    void register() {
+      String name = usernameController.text.trim();
+      String email = emailController.text.trim();
+      String password = passwordController.text.trim();
+      String phone = phoneController.text.trim();
+
+      if (name.isEmpty) {
+        showCustomMessage("Fill in your name", title: "Name");
+      } else if (email.isEmpty) {
+        showCustomMessage("Fill in your email", title: "Email address");
+      } else if (!GetUtils.isEmail(email)) {
+        showCustomMessage("Fill in a valid email address",
+            title: "Invalid Email Address");
+      } else if (password.isEmpty) {
+        showCustomMessage("Fill in your password", title: "Password");
+      } else if (password.length < 6) {
+        showCustomMessage("Password cannot be less than 6 characters",
+            title: "Invalid Password");
+      } else if (phone.isEmpty) {
+        showCustomMessage("Fill in your phone number", title: "Phone Number");
+      } else {
+        showCustomMessage("Great it works",
+            title: "Successful", isError: false);
+        SignUpModel signUpModel = SignUpModel(
+            name: name, password: password, email: email, phone: phone);
+
+        authController.registration(signUpModel).then((value) {
+          if (value.isSuccess) {
+            print("Success");
+          } else {
+            showCustomMessage(value.message);
+          }
+        });
+      }
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(children: [
           SizedBox(
             height: Dimensions.screenHeight * 0.05,
@@ -69,6 +111,8 @@ class SignUpPage extends StatelessWidget {
           SizedBox(
             height: Dimensions.height15,
           ),
+
+          // phone
           AppText(
               controller: phoneController,
               hintText: 'Phone',
@@ -77,17 +121,22 @@ class SignUpPage extends StatelessWidget {
           SizedBox(
             height: Dimensions.height20,
           ),
-          Container(
-            width: Dimensions.screenWidth / 2,
-            height: Dimensions.screenHeight / 15,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius15),
-                color: AppColors.mainColor),
-            child: Center(
-              child: BigText(
-                text: 'Sign Up',
-                size: Dimensions.font20 + 5,
-                color: Colors.white,
+          GestureDetector(
+            onTap: () {
+              register();
+            },
+            child: Container(
+              width: Dimensions.screenWidth / 2,
+              height: Dimensions.screenHeight / 15,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius15),
+                  color: AppColors.mainColor),
+              child: Center(
+                child: BigText(
+                  text: 'Sign Up',
+                  size: Dimensions.font20 + 5,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -97,7 +146,7 @@ class SignUpPage extends StatelessWidget {
           RichText(
               text: TextSpan(
                   recognizer: TapGestureRecognizer()..onTap = () => Get.back(),
-                  text: 'Already have an account? Log in ',
+                  text: 'Already have an account? ',
                   style: TextStyle(
                       color: Colors.grey, fontSize: Dimensions.font16))),
           SizedBox(
