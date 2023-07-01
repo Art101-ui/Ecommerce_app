@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
+import 'package:todo_app/data/controllers/authControllers.dart';
+import 'package:todo_app/data/controllers/cartControllers.dart';
+import 'package:todo_app/screens/routes/routes_help.dart';
 import 'package:todo_app/utilis/colors.dart';
 import 'package:todo_app/utilis/dimensions.dart';
 import 'package:todo_app/widgets/account_widget.dart';
@@ -113,8 +117,34 @@ class AccountPage extends StatelessWidget {
                         size: Dimensions.height10 * 4,
                       ),
                       bigText: BigText(
-                        text: 'Farouk',
+                        text: 'Messages',
                       )),
+                  SizedBox(
+                    height: Dimensions.height30,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (Get.find<AuthController>().isuserLoggedIn()) {
+                        Get.find<AuthController>().clearData();
+                        Get.find<CartControllers>().clear();
+                        Get.find<CartControllers>().clearCartHistory();
+                        Get.offNamed(RoutesHelper.getloginPage());
+                      } else {
+                        print('You are logged in');
+                      }
+                    },
+                    child: AccountWidget(
+                        appIcon: AppIcon(
+                          icon: Icons.logout,
+                          backgroundColor: Colors.redAccent,
+                          iconSize: Dimensions.height20,
+                          iconcolor: Colors.white,
+                          size: Dimensions.height10 * 4,
+                        ),
+                        bigText: BigText(
+                          text: 'LogOut',
+                        )),
+                  ),
                 ],
               ),
             ))

@@ -36,9 +36,9 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: SignInPage(),
-            // initialRoute: RoutesHelper.getOnBoarding(),
-            // getPages: RoutesHelper.getPage,
+
+            initialRoute: RoutesHelper.getOnBoarding(),
+            getPages: RoutesHelper.getPage,
             // MainFoodPage(),
           );
         }));

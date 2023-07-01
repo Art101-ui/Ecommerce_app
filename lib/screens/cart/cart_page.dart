@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/base/no_data_page.dart';
+import 'package:todo_app/data/controllers/authControllers.dart';
 import 'package:todo_app/data/controllers/cartControllers.dart';
 import 'package:todo_app/data/controllers/productControllers.dart';
 import 'package:todo_app/data/controllers/recommendedControllers.dart';
@@ -258,8 +259,12 @@ class CartPage extends StatelessWidget {
                           )),
                       GestureDetector(
                         onTap: () {
-                          print('tapped');
-                          cartController.addToCartHistoryList();
+                          if (Get.find<AuthController>().isuserLoggedIn()) {
+                            cartController.addToCartHistoryList();
+                            print('tapped');
+                          } else {
+                            Get.toNamed(RoutesHelper.getloginPage());
+                          }
                         },
                         child: Container(
                           padding: EdgeInsets.only(

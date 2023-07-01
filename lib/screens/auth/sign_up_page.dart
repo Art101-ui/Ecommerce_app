@@ -50,7 +50,6 @@ class SignUpPage extends StatelessWidget {
       } else if (phone.isEmpty) {
         showCustomMessage("Fill in your phone number", title: "Phone Number");
       } else {
-        
         SignUpModel signUpModel = SignUpModel(
             name: name, password: password, email: email, phone: phone);
 
@@ -85,7 +84,7 @@ class SignUpPage extends StatelessWidget {
                   ),
 
                   // username
-                  AppText(
+                  AppTextField(
                       controller: usernameController,
                       hintText: 'Username',
                       iconData: Icons.person,
@@ -95,7 +94,7 @@ class SignUpPage extends StatelessWidget {
                   ),
 
                   // email
-                  AppText(
+                  AppTextField(
                       controller: emailController,
                       hintText: 'Email',
                       iconData: Icons.email_outlined,
@@ -105,7 +104,8 @@ class SignUpPage extends StatelessWidget {
                   ),
 
                   // password
-                  AppText(
+                  AppTextField(
+                    isObscure: true,
                       controller: passwordController,
                       hintText: 'Password',
                       iconData: Icons.password,
@@ -115,7 +115,7 @@ class SignUpPage extends StatelessWidget {
                   ),
 
                   // phone
-                  AppText(
+                  AppTextField(
                       controller: phoneController,
                       hintText: 'Phone',
                       iconData: Icons.phone,

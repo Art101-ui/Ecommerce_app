@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:todo_app/screens/auth/sign_in_page.dart';
 import 'package:todo_app/screens/cart/cart_page.dart';
 import 'package:todo_app/screens/food/food_detail.dart';
 import 'package:todo_app/screens/food/recommended_food_detail.dart';
@@ -12,9 +13,11 @@ class RoutesHelper {
   static const String recommendedFood = '/recommended_foodDetail';
   static const String cartPage = '/cartPage';
   static const String onBoarding = '/onBoarding';
+  static const String loginPage = '/login';
 
   static String getOnBoarding() => onBoarding;
   static String getinitial() => initial;
+  static String getloginPage() => loginPage;
   static String getCartPage() => cartPage;
   static String getfoodDetail(int foodId, String cartPage) =>
       '$foodDetail?foodId=$foodId&cartPage=$cartPage';
@@ -24,6 +27,7 @@ class RoutesHelper {
 
   static List<GetPage> getPage = [
     GetPage(name: onBoarding, page: () => const Onboarding()),
+    GetPage(name: loginPage, page: () => const SignInPage()),
     GetPage(name: initial, page: () => HomePage()),
     GetPage(
         name: foodDetail,

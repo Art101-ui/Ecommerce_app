@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:todo_app/screens/auth/sign_in_page.dart';
 import 'package:todo_app/screens/auth/sign_up_page.dart';
 import 'package:todo_app/screens/cart/cart_history.dart';
 import 'package:todo_app/screens/home/main_car_page.dart';
@@ -36,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _buildScreens() {
     return [
       MainFoodPage(),
-      SignUpPage(),
+      SignInPage(),
       CartHistory(),
       AccountPage(),
     ];
