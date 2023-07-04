@@ -3,7 +3,7 @@ class UserModel {
   String name;
   String phone;
   String email;
-  String orderCount;
+  int orderCount;
 
   UserModel(
       {required this.id,
@@ -18,6 +18,6 @@ class UserModel {
         name: json['f_name'],
         phone: json['phone'],
         email: json['email'],
-        orderCount: json['orderCount']);
+        orderCount: json['orderCount'] ?? 0);
   }
 }

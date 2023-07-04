@@ -8,6 +8,7 @@ import 'package:todo_app/base/show_custom_message.dart';
 import 'package:todo_app/data/controllers/authControllers.dart';
 import 'package:todo_app/data/repository/authRepo.dart';
 import 'package:todo_app/models/signup_model.dart';
+import 'package:todo_app/screens/routes/routes_help.dart';
 import 'package:todo_app/utilis/colors.dart';
 import 'package:todo_app/utilis/dimensions.dart';
 import 'package:todo_app/widgets/app_text.dart';
@@ -56,6 +57,7 @@ class SignUpPage extends StatelessWidget {
         authController.registration(signUpModel).then((value) {
           if (value.isSuccess) {
             print("Success");
+            Get.offNamed(RoutesHelper.getinitial());
           } else {
             showCustomMessage(value.message);
           }
@@ -105,7 +107,7 @@ class SignUpPage extends StatelessWidget {
 
                   // password
                   AppTextField(
-                    isObscure: true,
+                      isObscure: true,
                       controller: passwordController,
                       hintText: 'Password',
                       iconData: Icons.password,
